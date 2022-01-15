@@ -19,5 +19,8 @@ MAX_STRIKES_COUNT = int(os.environ.get("MAX_STRIKES_COUNT"))
 SERVER_HOST = os.environ.get('HOST', "0.0.0.0")
 SERVER_PORT = int(os.environ.get('PORT', 5000))
 
+CHAT_URL = os.environ.get('CHAT_URL')
+CHAT_ID = int(os.environ.get('CHAT_ID'))
+
 ADMIN_BOT_USERNAME = 'ChatAdminDMBot'
-BAN_PERIOD_IN_DAYS =  int(os.environ.get("BAN_PERIOD_IN_DAYS"))
+BAN_PERIOD_IN_DAYS = int(os.environ.get("BAN_PERIOD_IN_DAYS"))

@@ -1,5 +1,7 @@
 from flask import Flask
 from telethon import TelegramClient, events
+from telethon.events import ChatAction
+from telethon.tl.types import PeerChannel
 
 from app.config import config
 from app.handler.start import StartHandler
@@ -11,7 +13,7 @@ server = Flask(__name__)
 bot = TelegramClient('teamo', config.API_ID, config.API_HASH).start(bot_token=config.BOT_API_KEY)
 
 strike_service = StrikeService()
-chat_service = ChatService(bot, "https://t.me/DigitalNomadsComunity")
+chat_service = ChatService(bot, config.CHAT_URL)
 
 #### HANDLERS ####
 start_handler = StartHandler(chat_service)
@@ -25,13 +27,17 @@ async def main(message):
     await start_handler.handle(message)
 
 
-#################################
-#       GENERAL CALLBACK        #
-#################################
-
 @bot.on(events.CallbackQuery(data=StrikeCallbackHandler.MARKER))
 async def strike_handler(call):
     await strike_callback_handler.handle(call)
+
+
+@bot.on(events.chataction.ChatAction(chats=PeerChannel(channel_id=config.CHAT_ID)))
+async def join_requests_handler(event: ChatAction.Event):
+    if event.user_joined or event.user_added or event.user_left:
+        print(event)
+        await event.delete()
+        print("Deleted")
 
 
 ##############################
