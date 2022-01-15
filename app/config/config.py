@@ -14,7 +14,7 @@ DB_TABLE_STRIKE = os.environ.get("DB_TABLE_STRIKE")
 
 WEBHOOK_URL = os.environ.get("WEBHOOK_URL")
 
-MAX_STRIKES_COUNT = os.environ.get("MAX_STRIKES_COUNT")
+MAX_STRIKES_COUNT = int(os.environ.get("MAX_STRIKES_COUNT"))
 
 SERVER_HOST = os.environ.get('SERVER_HOST', "0.0.0.0")
 SERVER_PORT = int(os.environ.get('SERVER_PORT', 5000))
