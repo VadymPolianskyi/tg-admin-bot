@@ -1,7 +1,7 @@
-from telebot.types import User
 from telethon import TelegramClient
 from telethon.events import CallbackQuery
 from telethon.tl.custom import Conversation
+from telethon.tl.types import User
 
 from app.config import msg, config
 from app.handler.general import TelegramCallbackHandler

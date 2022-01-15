@@ -1,8 +1,8 @@
 from datetime import timedelta
 from typing import Optional
 
-from telebot.types import User
 from telethon import TelegramClient
+from telethon.tl.types import User
 
 from app.db import StrikeDao, Strike
 

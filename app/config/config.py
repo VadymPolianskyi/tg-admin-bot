@@ -20,3 +20,4 @@ SERVER_HOST = os.environ.get('SERVER_HOST', "0.0.0.0")
 SERVER_PORT = int(os.environ.get('SERVER_PORT', 5000))
 
 ADMIN_BOT_USERNAME = 'ChatAdminDMBot'
+BAN_PERIOD_IN_DAYS =  int(os.environ.get("BAN_PERIOD_IN_DAYS"))
