@@ -2,7 +2,8 @@ import telebot
 from flask import Flask, request
 from telethon import TelegramClient, events
 from telethon.events import ChatAction
-from telethon.tl.types import PeerChannel
+from telethon.tl.custom import Message
+from telethon.tl.types import PeerChannel, PeerUser
 
 from app.config import config
 from app.handler.start import StartHandler
@@ -50,8 +51,16 @@ bot_ = telebot.TeleBot(config.BOT_API_KEY)
 
 @server.route('/' + config.BOT_API_KEY, methods=['POST'])
 def get_message():
+    import json
     json_string = request.get_data().decode('utf-8')
-    print(json_string)
+    print(f"Webhook data: {json_string}")
+    msg: dict = json.load(json_string)
+    msg_txt = msg['message']['text']
+    if msg_txt == "/menu" or msg_txt == "/start" or msg_txt == "/help":
+        from_id = msg['message']['from']['id']
+        message_id = msg['message']['id']
+        events.NewMessage.Event(Message(id=message_id, peer_id=PeerUser(from_id), from_id=from_id, message=msg_txt))
+    bot.run_until_disconnected()
     return "!", 200
 
 
