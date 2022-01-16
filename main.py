@@ -1,4 +1,5 @@
-from flask import Flask
+import telebot
+from flask import Flask, request
 from telethon import TelegramClient, events
 from telethon.events import ChatAction
 from telethon.tl.types import PeerChannel
@@ -39,14 +40,26 @@ async def join_requests_handler(event: ChatAction.Event):
         await event.delete()
         print("Deleted")
 
+    ##############################
+    #       APP LAUNCHING        #
+    ##############################
 
-##############################
-#       APP LAUNCHING        #
-##############################
+
+bot_ = telebot.TeleBot(config.BOT_API_KEY)
+
+
+@server.route('/' + config.BOT_API_KEY, methods=['POST'])
+def get_message():
+    json_string = request.get_data().decode('utf-8')
+    print(json_string)
+    return "!", 200
+
 
 @server.route("/")
 def webhook():
     print("Bot started...")
+    bot_.remove_webhook()
+    bot_.set_webhook(url=config.WEBHOOK_URL + config.BOT_API_KEY)
     bot.run_until_disconnected()
     return "!", 200
 
